@@ -5,26 +5,35 @@ from utilities import *
 # Search Utilities: Stats class and Node class
 from search_utilities import *
 
-######################################################################
-# BFS Tree Search
-######################################################################
-def bfsTree(problem):
+
+def uninformedSearch(problem, frontier, tree: bool):
     stats = Stats()
-    node = Node(problem.initState,None,None,0)
-    if problem.goalTest(node.state): return (node.solution(),stats)
-    frontier = FifoQueue()
+    node = Node(problem.initState, None, None, 0)
+    if problem.goalTest(node.state):
+        return (node.solution(), stats)
     frontier.add(node)
-    stats.fPlusPlus(node.state) #**
+    stats.fPlusPlus(node.state)  # **
+    explored = Set()
+
+    def alreadyExists(child): return explored.contains(
+        child.state) or frontier.find(lambda e: e.state == child.state)
+
     while True:
-        if frontier.isEmpty(): return (None,stats) 
+        if frontier.isEmpty():
+            return (None, stats)
         node = frontier.pop()
-        stats.fMinusMinus(node.state) #** 
-        stats.ePlusPlus(node.state) #**
+        stats.fMinusMinus(node.state)  # **
+        if(not tree):
+            explored.add(node.state)
+
+        stats.ePlusPlus(node.state)  # **
         for action in problem.actions(node.state):
-            child = node.child(problem,action)
-            if problem.goalTest(child.state): return (child.solution(),stats)
-            frontier.add(child)
-            stats.fPlusPlus(child.state) #**
+            child = node.child(problem, action)
+            if problem.goalTest(child.state):
+                return (child.solution(), stats)
+            if tree or not alreadyExists(child):
+                frontier.add(child)
+                stats.fPlusPlus(child.state)  # **
 
 ######################################################################
 # UCS Tree Search
@@ -47,11 +56,16 @@ def ucsTree(problem):
             frontier.add(child,f(child)) 
             stats.fPlusPlus(child.state) #**
 
-######################################################################
+
+# BFS Tree Search
+def bfsTree(problem):
+    return uninformedSearch(problem, FifoQueue(), tree=True)
+
+
 # BFS Graph Search
 ######################################################################
 def bfsGraph(problem):
-    stats = Stats() #**
+    return uninformedSearch(problem, FifoQueue(), tree=False)
 
     # ********************************
     # REPLACE THIS LINE WITH YOUR CODE
@@ -59,9 +73,12 @@ def bfsGraph(problem):
     # ********************************
 
 ######################################################################
-# DFS Graph Search       
+# DFS Graph Search
 ######################################################################
 def dfsGraph(problem):
+    return uninformedSearch(problem, LifoQueue(), tree=False)
+
+
     stats = Stats() #**
 
     # ********************************

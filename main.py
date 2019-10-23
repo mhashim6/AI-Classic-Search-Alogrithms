@@ -23,12 +23,12 @@ if __name__ == '__main__':
     # ----------------------
     # Run BFS (tree version)
     # ----------------------
-    # print("** Using BFS - Tree **")
-    # (bfsSolution,bfsStats) = bfsTree(problem)
-    # if bfsSolution==None: 
-    #    print("Sorry, I can't find a solution!!")
-    # else: 
-    #    problem.drawSolution("bfsTree",bfsSolution,bfsStats.data)
+    print("** Using BFS - Tree **")
+    (bfsSolution, bfsStats) = bfsTree(problem)
+    if bfsSolution == None:
+       print("Sorry, I can't find a solution!!")
+    else:
+       problem.drawSolution("bfsTree", bfsSolution, bfsStats.data)
 
     # ----------------------
     # Run UCS (tree version)
@@ -44,32 +44,41 @@ if __name__ == '__main__':
     # Run BFS (graph version)
     # -----------------------
     print("** Using BFS - Graph **")
-    (bfsSolution,bfsStats) = bfsGraph(problem)
-    if bfsSolution==None: 
+    (bfsSolution, bfsStats) = bfsGraph(problem)
+    if bfsSolution == None:
         print("Sorry, I can't find a solution!!")
     else: 
-        problem.drawSolution("bfsGraph",bfsSolution,bfsStats.data)
+        problem.drawSolution("bfsGraph", bfsSolution, bfsStats.data)
 
     # -----------------------
     # Run DFS (graph version)
     # -----------------------
     print("** Using DFS - Graph **")
-    (dfsSolution,dfsStats) = dfsGraph(problem)
-    if dfsSolution==None: 
+    (dfsSolution, dfsStats) = dfsGraph(problem)
+    if dfsSolution == None:
         print("Sorry, I can't find a solution!!")
-    else: 
+    else:
         problem.drawSolution("dfsGraph",dfsSolution,dfsStats.data)
 
+    # ----------------------
+    # Run UCS (tree version)
+    # ----------------------
+    print("** Using UCS - Tree **")
+    (ucsSolution, ucsStats) = ucsTree(problem)
+    if ucsSolution == None:
+       print("Sorry, I can't find a solution!!")
+    else:
+       problem.drawSolution("ucsTree", ucsSolution, ucsStats.data)
 
     # ----------------------
     # Run UCS (graph version)
     # ----------------------
     print("** Using UCS - Graph **")
-    (ucsSolution,ucsStats) = ucsTree(problem)
-    if ucsSolution==None: 
+    (ucsSolution, ucsStats) = ucsGraph(problem)
+    if ucsSolution == None:
        print("Sorry, I can't find a solution!!")
-    else: 
-       problem.drawSolution("ucsGraph",ucsSolution,ucsStats.data)
+    else:
+       problem.drawSolution("ucsGraph", ucsSolution, ucsStats.data)
 
 
     # ------------------------
