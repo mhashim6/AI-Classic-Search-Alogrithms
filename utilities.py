@@ -39,11 +39,11 @@ class FifoQueue:
 
     # Find an element that satisfies a given criterion
     # i.e., return an element "e" where "f(e)" is true  
-    def find(self,f):
-        return (f in self.data)
-        # for value in self.data.values():
-        #     if f(value): return value
-        # return None
+    def find(self, predicate):
+        for v in self.data.values():
+            if predicate(v):
+                return True
+        return False
 
     # Get the size of the queue
     def size(self):
@@ -77,11 +77,11 @@ class LifoQueue:
 
     # Find an element that satisfies a given criterion
     # i.e., return an element "e" where "f(e)" is true
-    def find(self,f):
-        for value in self.data.values():
-            print(">>", f(value))
-            if f(value): return value
-        return None
+    def find(self, predicate):
+            for v in self.data.values():
+                if predicate(v):
+                    return True
+            return False
 
     # Get the size of the stack
     def size(self):
@@ -133,6 +133,9 @@ class PriorityQueue:
             if f(task): return task
         return None
 
+    def contains(self, e):
+        return e in self.pq
+
     # Get the size of the queue
     def size(self):
         return len(self.entry_finder)
@@ -143,20 +146,27 @@ class PriorityQueue:
 ######################################################################
 class Set:
     # Initialize the set
-    def __init__(self,elementList):
-        self.set = set(elementList)
+    def __init__(self):
+        self.elements = set()
 
     # Add an element to the set 
     def add(self,element):
-        self.set.add(element)
+        self.elements.add(element)
 
     # Find an element in the set
+    def find(self, f):
+        for task in self.entry_finder:
+            if f(task):
+                return task
+        return None
+    
+
     def contains(self,element):
-        return self.set.issuperset(set([element]))
+        return element in self.elements
 
     # Get the size of the set
     def size(self):
-        return len(self.set)
+        return len(self.elements)
 
 ######################################################################
 # A class for drawing objects (line, rectangle, ...)
