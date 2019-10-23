@@ -101,4 +101,4 @@ def aStarGraph(problem):
     def h(x): return problem.heuristic(x.state)
     def g(x): return x.pathCost
     def f(x): return h(x) + g(x)
-    return informedSearch(problem, PriorityQueue(), False, f)
+    return informedSearch(problem, False, f)
