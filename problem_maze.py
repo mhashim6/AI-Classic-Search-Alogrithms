@@ -138,8 +138,7 @@ class Problem:
 
     # A heuristic function to estimate how far the goal is from a given state
     def heuristic(self,state):
-
-        # ********************************
-        # REPLACE THIS LINE WITH YOUR CODE
-        return 0
-        # ********************************
+        x, y = state
+        xi, yi = self.initState
+        l1, l2 = abs(x - xi), abs(y - yi)
+        return math.sqrt(l1**2 + l2**2)

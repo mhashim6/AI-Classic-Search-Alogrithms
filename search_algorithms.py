@@ -35,26 +35,34 @@ def uninformedSearch(problem, frontier, tree: bool):
                 frontier.add(child)
                 stats.fPlusPlus(child.state)  # **
 
-######################################################################
-# UCS Tree Search
-######################################################################
-def ucsTree(problem):
+
+def informedSearch(problem, tree: bool, f):
     stats = Stats()
-    def f (x): return x.pathCost
-    node = Node(problem.initState,None,None,0)
+    node = Node(problem.initState, None, None, 0)
     frontier = PriorityQueue()
-    frontier.add(node,f(node))
-    stats.fPlusPlus(node.state) #**
+    frontier.add(node, f(node))
+    stats.fPlusPlus(node.state)  # **
+    explored = Set()
+
+    def alreadyExists(child): return explored.contains(
+        child.state) or frontier.find(lambda e: e.state == child.state)
+
     while True:
-        if frontier.isEmpty(): return (None,stats) 
+        if frontier.isEmpty():
+            return (None, stats)
         node = frontier.pop()
-        stats.fMinusMinus(node.state) #**
-        if problem.goalTest(node.state): return (node.solution(),stats) 
-        stats.ePlusPlus(node.state) #**
+        stats.fMinusMinus(node.state)  # **
+        if(not tree):
+            explored.add(node.state)
+
+        if problem.goalTest(node.state):
+            return (node.solution(), stats)
+        stats.ePlusPlus(node.state)  # **
         for action in problem.actions(node.state):
-            child = node.child(problem,action) 
-            frontier.add(child,f(child)) 
-            stats.fPlusPlus(child.state) #**
+            child = node.child(problem, action)
+            if tree or not alreadyExists(child):
+                frontier.add(child, f(child))
+                stats.fPlusPlus(child.state)  # **
 
 
 # BFS Tree Search
@@ -63,60 +71,34 @@ def bfsTree(problem):
 
 
 # BFS Graph Search
-######################################################################
 def bfsGraph(problem):
     return uninformedSearch(problem, FifoQueue(), tree=False)
 
-    # ********************************
-    # REPLACE THIS LINE WITH YOUR CODE
-    return (None,stats)
-    # ********************************
 
-######################################################################
 # DFS Graph Search
-######################################################################
 def dfsGraph(problem):
     return uninformedSearch(problem, LifoQueue(), tree=False)
 
 
-    stats = Stats() #**
+# UCS Tree Search
+def ucsTree(problem):
+    return informedSearch(problem, True, lambda x: x.pathCost)
 
-    # ********************************
-    # REPLACE THIS LINE WITH YOUR CODE
-    return (None,stats)
-    # ********************************
 
-######################################################################
-# DFS Graph Search       
-######################################################################
+# UCS Graph Search
 def ucsGraph(problem):
-    stats = Stats() #**
+    return informedSearch(problem, False, lambda x: x.pathCost)
 
-    # ********************************
-    # REPLACE THIS LINE WITH YOUR CODE
-    return (None,stats)
-    # ********************************
 
-######################################################################
 # GBFS Graph Search
-######################################################################
-# def gbfsGraph(problem):
-#     stats = Stats() #**
-
-#     # ********************************
-#     # REPLACE THIS LINE WITH YOUR CODE
-#     return (None,stats)
-#     # ********************************
+def gbfsGraph(problem):
+    def h(x): return problem.heuristic(x.state)
+    return informedSearch(problem, False, h)
 
 
-
-######################################################################
 # A* Graph Search
-######################################################################
-# def aStarGraph(problem):
-#     stats = Stats() #**
-
-#     # ********************************
-#     # REPLACE THIS LINE WITH YOUR CODE
-#     return (None,stats)
-#     # ********************************
+def aStarGraph(problem):
+    def h(x): return problem.heuristic(x.state)
+    def g(x): return x.pathCost
+    def f(x): return h(x) + g(x)
+    return informedSearch(problem, PriorityQueue(), False, f)

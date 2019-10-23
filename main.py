@@ -30,16 +30,6 @@ if __name__ == '__main__':
     else:
        problem.drawSolution("bfsTree", bfsSolution, bfsStats.data)
 
-    # ----------------------
-    # Run UCS (tree version)
-    # ----------------------
-    # print("** Using UCS - Tree **")
-    # (ucsSolution,ucsStats) = ucsTree(problem)
-    # if ucsSolution==None: 
-    #    print("Sorry, I can't find a solution!!")
-    # else: 
-    #    problem.drawSolution("ucsTree",ucsSolution,ucsStats.data)
-
     # -----------------------
     # Run BFS (graph version)
     # -----------------------
@@ -80,23 +70,22 @@ if __name__ == '__main__':
     else:
        problem.drawSolution("ucsGraph", ucsSolution, ucsStats.data)
 
-
     # ------------------------
     # Run GBFS (graph version)
     # ------------------------
-    # print("** Using GBFS - Graph **")
-    # (gbfsSolution,gbfsStats) = gbfsGraph(problem)
-    # if gbfsSolution==None: 
-    #    print("Sorry, I can't find a solution!!")
-    # else: 
-    #     problem.drawSolution("gbfsGraph",gbfsSolution,gbfsStats.data)
+    print("** Using GBFS - Graph **")
+    (gbfsSolution, gbfsStats) = gbfsGraph(problem)
+    if gbfsSolution == None:
+       print("Sorry, I can't find a solution!!")
+    else:
+        problem.drawSolution("gbfsGraph", gbfsSolution, gbfsStats.data)
 
     # ----------------------
     # Run A* (graph version)
     # ----------------------
-    # print("** Using A* - Graph **")
-    # (aStarSolution,aStarStats) = aStarGraph(problem)
-    # if aStarSolution==None: 
-    #     print("Sorry, I can't find a solution!!")
-    # else: 
-    #     problem.drawSolution("AStarGraph",aStarSolution,aStarStats.data)
+    print("** Using A* - Graph **")
+    (aStarSolution, aStarStats) = aStarGraph(problem)
+    if aStarSolution == None:
+        print("Sorry, I can't find a solution!!")
+    else:
+        problem.drawSolution("AStarGraph", aStarSolution, aStarStats.data)
